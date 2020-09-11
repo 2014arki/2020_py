@@ -6,7 +6,9 @@ OPERATORS = {
         '+': op.add,
         '/': op.truediv,
         '*': op.mul,
-        '%': op.mod
+        '%': op.mod,
+        '**': op.pow,
+        '^': op.pow
 }
 
 try:
@@ -17,11 +19,14 @@ except ValueError:
 
 action = input()
 
-try:
-    b = int(input())
-except ValueError:
-    print('Please, enter integer')
-    b = int(input())
+if action not in ('**', '^'):
+    try:
+        b = int(input())
+    except ValueError:
+        print('Please, enter integer')
+        b = int(input())
+else:
+    b = float(input())
 
 result = OPERATORS.get(action).__call__(a, b)
 print(result)

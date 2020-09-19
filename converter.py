@@ -1,14 +1,14 @@
 #! usr/bin/env python3
 
 NAMES_FOR_UNITS = {
-    'обороты': 'об или ob',
-    'градусы': 'гр или deg',
-    'радиан': 'рад или rad',
-    'секстант': 'секстан, секстант или sct',
-    'град': 'грд или grd',
-    'минуты': 'мин или min',
-    'секунды': 'сек или sec',
-    'румб': 'рб или rb'
+    'cycle': 'ob',
+    'degree': 'deg',
+    'radian': 'rad',
+    'sextant': 'sct or secst',
+    'grad': 'grd',
+    'minute': 'min',
+    'second': 'sec',
+    'rhumb': 'rb'
 }
 
 DEG_IN_OTH_UNITS = {
@@ -21,35 +21,43 @@ DEG_IN_OTH_UNITS = {
     'min': 0.0166666666666666666,
     'sec': 0.0002777777777777777,
     'rb': 11.25,
-    'об': 360,
-    'гр': 1,
-    'рад': 57.295779513,
-    'секстант': 60,
-    'секстан': 60,
-    'грд': 0.9,
-    'мин': 0.0166666666666666666,
-    'сек': 0.0002777777777777777,
-    'рб': 11.25
 }
 
 
-value = list(input())
+def conv_to_deg(val, unit):
+    return val * DEG_IN_OTH_UNITS.get(unit)
+
+
+def print_dict(dictionary):
+    for key, val in dictionary.items():
+        print(f'{key}: {val}')
+
+
+print('Type value and units separated by whitespace. Choose unit signature from list')
+print_dict(NAMES_FOR_UNITS)
+user_req = list(input())
+print('Choose unit to convert')
+unit_to_convert = input()
+
 num = []
-unit = []
-for el in value:
+unit_chars = []
+for el in user_req:
     if el.isnumeric() or el == '.':
         num.append(el)
     if el.isalpha():
-        unit.append(el)
+        unit_chars.append(el)
 
-user_req = (float(''.join(num)), ''.join(unit))
+value = float(''.join(num))
+unit = ''.join(unit_chars)
+
 try:
-    conv_to_deg = DEG_IN_OTH_UNITS.get(user_req[1]) * user_req[0]
+    value_in_units = conv_to_deg(value, unit) / DEG_IN_OTH_UNITS.get(unit_to_convert)
 except TypeError:
-    print('Unknown unit, please choose correct unit from list ant type it in commandline')
-    print(NAMES_FOR_UNITS)
-    unit_value = input()
-    conv_to_deg = DEG_IN_OTH_UNITS.get(unit_value) / user_req[0]
-    print(conv_to_deg)
-
-
+    print('Unknown units, please choose correct units from list ant type it in commandline.')
+    print_dict(NAMES_FOR_UNITS)
+    print('Units of request')
+    unit = input()
+    print('Units to convert')
+    unit_to_convert = input()
+    value_in_units = conv_to_deg(value, unit) / DEG_IN_OTH_UNITS.get(unit_to_convert)
+print(f'{value_in_units} {unit_to_convert}')

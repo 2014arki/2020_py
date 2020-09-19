@@ -1,26 +1,17 @@
 #! usr/bin/env python3
 
 NAMES_FOR_UNITS = {
-    'обороты': 'об или ob',
-    'градусы': 'гр или deg',
-    'радиан': 'рад или rad',
-    'секстант': 'секстан, секстант или sct',
-    'град': 'грд или grd',
-    'минуты': 'мин или min',
-    'секунды': 'сек или sec',
-    'румб': 'рб или rb'
+    'обороты': 'об',
+    'градусы': 'гр',
+    'радиан': 'рад',
+    'секстант': 'секстан, секстант',
+    'град': 'грд',
+    'минуты': 'мин',
+    'секунды': 'сек',
+    'румб': 'рб'
 }
 
 DEG_IN_OTH_UNITS = {
-    'ob': 360,
-    'deg': 1,
-    'rad': 57.295779513,
-    'sct': 60,
-    'secst': 60,
-    'grd': 0.9,
-    'min': 0.0166666666666666666,
-    'sec': 0.0002777777777777777,
-    'rb': 11.25,
     'об': 360,
     'гр': 1,
     'рад': 57.295779513,
@@ -33,7 +24,13 @@ DEG_IN_OTH_UNITS = {
 }
 
 
+def convert_to_deg(val, unit):
+    return value * DEG_IN_OTH_UNITS.get(unit)
+
+print('Напишите число и единицу измерения, разделенные пробелом')
 value = list(input())
+print('Напишите единицы, в которые хотите конвертировать')
+units_to_convert = input()
 num = []
 unit = []
 for el in value:
@@ -42,14 +39,19 @@ for el in value:
     if el.isalpha():
         unit.append(el)
 
-user_req = (float(''.join(num)), ''.join(unit))
+value = float(''.join(num))
+unit = ''.join(unit)
+
 try:
-    conv_to_deg = DEG_IN_OTH_UNITS.get(user_req[1]) * user_req[0]
+    convertion = convert_to_deg(value, unit=unit) / DEG_IN_OTH_UNITS.get(units_to_convert)
 except TypeError:
-    print('Unknown unit, please choose correct unit from list ant type it in commandline')
+    print('Неверные единицы измерения. Выберите единицы измерения из списка ниже')
     print(NAMES_FOR_UNITS)
-    unit_value = input()
-    conv_to_deg = DEG_IN_OTH_UNITS.get(unit_value) / user_req[0]
+    print('Введите единицы, в которых измеряется Ваш запрос')
+    unit = input()
+    print('Введите единицы, в которые Вы хотите конвертировать')
+    units_to_convert = input()
+    convertion = convert_to_deg(value, unit=unit) / DEG_IN_OTH_UNITS.get(units_to_convert)
     print(conv_to_deg)
 
 

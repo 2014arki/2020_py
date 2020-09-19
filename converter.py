@@ -27,7 +27,9 @@ DEG_IN_OTH_UNITS = {
 def convert_to_deg(val, unit):
     return value * DEG_IN_OTH_UNITS.get(unit)
 
+
 print('Напишите число и единицу измерения, разделенные пробелом')
+print(NAMES_FOR_UNITS)
 value = list(input())
 print('Напишите единицы, в которые хотите конвертировать')
 units_to_convert = input()
@@ -52,6 +54,6 @@ except TypeError:
     print('Введите единицы, в которые Вы хотите конвертировать')
     units_to_convert = input()
     convertion = convert_to_deg(value, unit=unit) / DEG_IN_OTH_UNITS.get(units_to_convert)
-    print(conv_to_deg)
+print(f'{convertion} {units_to_convert}')
 
 

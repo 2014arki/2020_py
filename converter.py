@@ -1,59 +1,63 @@
 #! usr/bin/env python3
 
 NAMES_FOR_UNITS = {
-    'обороты': 'об',
-    'градусы': 'гр',
-    'радиан': 'рад',
-    'секстант': 'секстан, секстант',
-    'град': 'грд',
-    'минуты': 'мин',
-    'секунды': 'сек',
-    'румб': 'рб'
+    'cycle': 'ob',
+    'degree': 'deg',
+    'radian': 'rad',
+    'sextant': 'sct or secst',
+    'grad': 'grd',
+    'minute': 'min',
+    'second': 'sec',
+    'rhumb': 'rb'
 }
 
 DEG_IN_OTH_UNITS = {
-    'об': 360,
-    'гр': 1,
-    'рад': 57.295779513,
-    'секстант': 60,
-    'секстан': 60,
-    'грд': 0.9,
-    'мин': 0.0166666666666666666,
-    'сек': 0.0002777777777777777,
-    'рб': 11.25
+    'ob': 360,
+    'deg': 1,
+    'rad': 57.295779513,
+    'sct': 60,
+    'secst': 60,
+    'grd': 0.9,
+    'min': 0.0166666666666666666,
+    'sec': 0.0002777777777777777,
+    'rb': 11.25,
 }
 
 
-def convert_to_deg(val, unit):
-    return value * DEG_IN_OTH_UNITS.get(unit)
+def conv_to_deg(val, unit):
+    return val * DEG_IN_OTH_UNITS.get(unit)
 
 
-print('Напишите число и единицу измерения, разделенные пробелом')
-print(NAMES_FOR_UNITS)
-value = list(input())
-print('Напишите единицы, в которые хотите конвертировать')
-units_to_convert = input()
+def print_dict(dictionary):
+    for key, val in dictionary.items():
+        print(f'{key}: {val}')
+
+
+print('Type value and units separated by whitespace. Choose unit signature from list')
+print_dict(NAMES_FOR_UNITS)
+user_req = list(input())
+print('Choose unit to convert')
+unit_to_convert = input()
+
 num = []
-unit = []
-for el in value:
+unit_chars = []
+for el in user_req:
     if el.isnumeric() or el == '.':
         num.append(el)
     if el.isalpha():
-        unit.append(el)
+        unit_chars.append(el)
 
 value = float(''.join(num))
-unit = ''.join(unit)
+unit = ''.join(unit_chars)
 
 try:
-    convertion = convert_to_deg(value, unit=unit) / DEG_IN_OTH_UNITS.get(units_to_convert)
+    value_in_units = conv_to_deg(value, unit) / DEG_IN_OTH_UNITS.get(unit_to_convert)
 except TypeError:
-    print('Неверные единицы измерения. Выберите единицы измерения из списка ниже')
-    print(NAMES_FOR_UNITS)
-    print('Введите единицы, в которых измеряется Ваш запрос')
+    print('Unknown units, please choose correct units from list ant type it in commandline.')
+    print_dict(NAMES_FOR_UNITS)
+    print('Units of request')
     unit = input()
-    print('Введите единицы, в которые Вы хотите конвертировать')
-    units_to_convert = input()
-    convertion = convert_to_deg(value, unit=unit) / DEG_IN_OTH_UNITS.get(units_to_convert)
-print(f'{convertion} {units_to_convert}')
-
-
+    print('Units to convert')
+    unit_to_convert = input()
+    value_in_units = conv_to_deg(value, unit) / DEG_IN_OTH_UNITS.get(unit_to_convert)
+print(f'{value_in_units} {unit_to_convert}')
